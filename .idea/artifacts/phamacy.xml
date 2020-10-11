@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="phamacy">
+    <output-path>$PROJECT_DIR$/classes/artifacts/phamacy</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="jsp-api-2.2.jar" module-name="phamacy" />
+          <element id="library" level="module" name="jstl-1.2.jar" module-name="phamacy" />
+          <element id="library" level="module" name="mysql-connector-java-8.0.13.jar" module-name="phamacy" />
+          <element id="library" level="project" name="servlet-api" />
+        </element>
+        <element id="directory" name="classes">
+          <element id="module-output" name="phamacy" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="phamacy/web/Web" />
+    </root>
+  </artifact>
+</component>
