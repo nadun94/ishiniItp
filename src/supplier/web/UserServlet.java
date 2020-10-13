@@ -1,8 +1,8 @@
 package supplier.web;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import supplier.dao.UserDAO;
+import supplier.model.Report;
+import supplier.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,10 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import supplier.dao.UserDAO;
-import supplier.model.Report;
-import supplier.model.User;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
 
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
@@ -93,13 +97,32 @@ public class UserServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 	private void insertUser(HttpServletRequest request, HttpServletResponse response) 
-			throws SQLException, IOException {
+			throws SQLException, IOException, ServletException, IOException  {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String company = request.getParameter("company");
 		User newUser = new User(name, email, company);
-		userDAO.insertUser(newUser);
-		response.sendRedirect("list");
+
+		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+		Validator validator = validatorFactory.getValidator();
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate(newUser);
+		if (!constraintViolations.isEmpty()) {
+			String errors = "<ul>";
+			for (ConstraintViolation<User> constraintViolation : constraintViolations) {
+				errors += "<li>" + constraintViolation.getPropertyPath() + " " + constraintViolation.getMessage()
+						+ "</li>";
+			}
+			errors += "</ul>";
+			userDAO.insertUser(newUser);
+			request.setAttribute("user", newUser);
+			request.setAttribute("errors", errors);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
+			dispatcher.forward(request, response);
+
+		} else {
+			userDAO.insertUser(newUser);
+			response.sendRedirect("list");
+		}
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response) 

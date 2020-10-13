@@ -6,6 +6,8 @@ package supplier.model;
  * @author Ramesh Fadatare
  *
  */
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 public class User {
 	protected int id;
 	protected String name;
@@ -36,12 +38,17 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	@NotEmpty
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@NotEmpty
+	@Email
 	public String getEmail() {
 		return email;
 	}
@@ -49,6 +56,7 @@ public class User {
 		this.email = email;
 	}
 
+	@NotEmpty
 	public String getCompany() {
 		return company;
 	}

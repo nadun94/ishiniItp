@@ -51,8 +51,8 @@
 <div class="sidenav">
     <center>
         <img src="<%=Common.url%>/assets/st1.png" class="user_type" alt=""/>
+        <h4>Assistant</h4>
     </center>
-    <h4>Assistant</h4>
     <a href="<%=request.getContextPath()%>/list"><i class="fa fa-archive" aria-hidden="true"></i><span>Supplier</span></a>
     <a href="<%=request.getContextPath()%>/new"><i class="fa fa-plus" aria-hidden="true"></i><span>Add Supplier</span></a>
     <a href="<%=request.getContextPath()%>/report-one"><i class="fa fa-plus" aria-hidden="true"></i><span>Supplier Report</span></a>
